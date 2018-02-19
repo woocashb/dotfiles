@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+WINDOW_CNT=7
+WINDOW_NAMES=("local" "local" "squid" "dns" "www" "samba" "poczta" "dzik" "misc")
+
+for((i=0; i < WINDOW_CNT; i++));do
+tmux new-window
+done
+
+for key in ${!WINDOW_NAMES[@]};do
+        tmux rename-window ${WINDOW_NAMES[$key]}
+
+        tmux select-window -t :$key
+        tmux split-window
+done
