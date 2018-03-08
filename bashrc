@@ -45,10 +45,14 @@ nmap -v -sn -n $1 -oG - | awk '/Status: Down/{print $2}'
 }
 
 vimcp(){
- set -x 
- cp -p $1{,_$(date "+%F")}
- vim $1
- set +x
+ if [[ -w $1 ]];then
+  set -x 
+  cp -p $1{,_$(date "+%F")}
+  vim $1
+  set +x
+ else
+  echo "Brak uprawnien do modyfikacji."
+ fi
 }
 
 pwdgen(){
