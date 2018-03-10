@@ -69,6 +69,6 @@ export html=/var/www/html
 
 # postgres
 export pgdata=$(ps -ef | grep postgres | grep -- '-D' | cut -d 'D' -f 2 | tr -d ' ')
-export pglog=${pgdata}/pg_log/$(date "+%Y%m%d_%H00-postgresql.log")
+export pglog=$(lsof -p $(ps -ef | egrep -i 'postgres: logger' | grep -v grep | awk '{print $2}') | grep -i log | tail -n 1 | awk '{print $9}')
 
 
