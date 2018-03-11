@@ -14,7 +14,7 @@ alias vim=vi
 alias yum=dnf
 export http_proxy=http://192.168.0.4:3128
 export pgdata=$(ps -ef | grep postgres | grep -- '-D' | cut -d 'D' -f 2 | tr -d ' ')
-
+export network=/etc/sysconfig/network-scripts
 
 # User specific aliases and functions
 export HISTTIMEFORMAT="%d/%m/%y %T "
