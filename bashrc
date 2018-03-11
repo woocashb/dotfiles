@@ -45,10 +45,14 @@ nmap -v -sn -n $1 -oG - | awk '/Status: Down/{print $2}'
 }
 
 vimcp(){
- set -x 
- cp -p $1{,_$(date "+%F")}
- vim $1
- set +x
+ if [[ -w $1 ]];then
+  set -x 
+  cp -p $1{,_$(date "+%F")}
+  vim $1
+  set +x
+ else
+  echo "Brak uprawnien do modyfikacji."
+ fi
 }
 
 pwdgen(){
@@ -65,6 +69,6 @@ export html=/var/www/html
 
 # postgres
 export pgdata=$(ps -ef | grep postgres | grep -- '-D' | cut -d 'D' -f 2 | tr -d ' ')
-export pglog=${pgdata}/pg_log/$(date "+%Y%m%d_%H00-postgresql.log")
+export pglog=$(lsof -p $(ps -ef | egrep -i 'postgres: logger' | grep -v grep | awk '{print $2}') | grep -i log | tail -n 1 | awk '{print $9}')
 
 
