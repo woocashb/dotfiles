@@ -59,6 +59,14 @@ pwdgen(){
 openssl rand -base64 $1
 }
 
+topmem(){
+ps -eo pid,%mem,comm | sort -k 2 -r | head -n $1
+}
+
+topcpu(){
+ps -eo pid,%cpu,comm | sort -k 2 -r | head -n $1
+}
+
 export haproxycfg=/etc/haproxy/haproxy.cfg
 
 # apache
