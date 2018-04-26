@@ -37,7 +37,7 @@ scproxy(){
 
 # z -print0
 findsum(){
-awk 'BEGIN { suma = 0 } { suma += $1} END { print suma "M"}'
+awk 'BEGIN { suma = 0 } { suma += $1} END { print "Suma: ", suma "M"}'
 }
 
 netprobe(){
@@ -62,14 +62,21 @@ openssl rand -base64 $1
 }
 
 topmem(){
-ps -eo pid,%mem,comm | sort -k 2 -r | head -n $1
+arg=$1
+n=${arg:=10}
+ps -eo pid,%mem,comm | sort -k 2 -r | head -n $n
 }
 
 topcpu(){
-ps -eo pid,%cpu,comm | sort -k 2 -r | head -n $1
+arg=$1
+n=${arg:=10}
+ps -eo pid,%cpu,comm | sort -k 2 -r | head -n $n
 }
 
-export haproxycfg=/etc/haproxy/haproxy.cfg
+
+# haproxy
+export hacfg=/etc/haproxy/haproxy.cfg
+export halog=/var/log/haproxy.log
 
 # apache
 export hconf=/etc/httpd/conf/httpd.conf
@@ -85,6 +92,7 @@ export nroot=/usr/share/nginx/html
 
 # postgres
 export pgdata=$(ps -ef | grep postgres | grep -- '-D' | cut -d 'D' -f 2 | tr -d ' ')
+export pghba=${pgdata}/pg_hba.conf
 export pglog=$(lsof -p $(ps -ef | egrep -i 'postgres: logger' | grep -v grep | awk '{print $2}') 2> /dev/null | grep -i log | tail -n 1 | awk '{print $9}')
 
 
