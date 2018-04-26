@@ -37,7 +37,7 @@ scproxy(){
 
 # z -print0
 findsum(){
-du --files0-from=- -hc | tail -n1
+awk 'BEGIN { suma = 0 } { suma += $1} END { print suma "M"}'
 }
 
 netprobe(){
@@ -55,6 +55,8 @@ vimcp(){
  fi
 }
 
+
+
 pwdgen(){
 openssl rand -base64 $1
 }
@@ -70,13 +72,19 @@ ps -eo pid,%cpu,comm | sort -k 2 -r | head -n $1
 export haproxycfg=/etc/haproxy/haproxy.cfg
 
 # apache
-export httpdconf=/etc/httpd/conf/httpd.conf
-export httpdlog=/var/log/httpd
-export httpdconfd=/etc/httpd/conf.d
-export html=/var/www/html
+export hconf=/etc/httpd/conf/httpd.conf
+export hlog=/var/log/httpd
+export hconfd=/etc/httpd/conf.d
+export hroot=/var/www/html
+
+# nginx
+export nconf=/etc/httpd/conf/nginx.conf
+export nlog=/var/log/nginx
+export nconfd=/etc/nginx/conf.d
+export nroot=/usr/share/nginx/html
 
 # postgres
 export pgdata=$(ps -ef | grep postgres | grep -- '-D' | cut -d 'D' -f 2 | tr -d ' ')
-export pglog=$(lsof -p $(ps -ef | egrep -i 'postgres: logger' | grep -v grep | awk '{print $2}') | grep -i log | tail -n 1 | awk '{print $9}')
+export pglog=$(lsof -p $(ps -ef | egrep -i 'postgres: logger' | grep -v grep | awk '{print $2}') 2> /dev/null | grep -i log | tail -n 1 | awk '{print $9}')
 
 
