@@ -1,6 +1,8 @@
 # Path to your oh-my-zsh installation.
+export EDITOR=/usr/bin/vim
+export systemd=/etc/systemd/system
 export DISABLE_CORRECTION="true" 
-export ZSH=/home/woocash/.oh-my-zsh
+export ZSH=/home/archer/.oh-my-zsh
 export lan=10.12.1.
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -13,8 +15,8 @@ ZSH_THEME="aussiegeek"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
+DISABLE_AUTO_UPDATE="true"
+export TERM=xterm
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
 
@@ -49,10 +51,8 @@ ZSH_THEME="aussiegeek"
 plugins=()
 
 # User configuration
-export DISPLAY=:0
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/java/bin:/opt/java/db/bin:/opt/java/jre/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/local/texlive/2011/bin/x86_64-linux:/home/archer/bin:/usr/local/texlive/2011/bin/x86_64-linux:/home/archer/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
-DISABLE_AUTO_UPDATE="yes"
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
@@ -82,6 +82,7 @@ source $ZSH/oh-my-zsh.sh
 #
 BIN_PATH="/usr/bin"
 export PATH="/home/woocash/bin:$PATH"
+alias tailf='tail -f'
 alias writer="$BIN_PATH/libreoffice --writer"
 alias calc="$BIN_PATH/libreoffice --calc"
 alias wireshark=wireshark-gtk
@@ -145,7 +146,6 @@ case $TERM in
                 }
                 ;;
 esac
-source ~/.srvs
 unsetopt correct
 
 simplivity="10.1.255."
@@ -192,10 +192,8 @@ unsetopt correct_all
 # export SYSTEMD_PAGER=
 export DISPLAY=:0
 export browset=/usr/bin/firefox
-alias pip="pip --proxy http://192.168.0.4:3128"
 alias vim=vi
 alias yum=dnf
-export http_proxy=http://192.168.0.4:3128
 export pgdata=$(ps -ef | grep postgres | grep -- '-D' | cut -d 'D' -f 2 | tr -d ' ')
 export network=/etc/sysconfig/network-scripts
 
@@ -241,11 +239,21 @@ openssl rand -base64 $1
 }
 
 topmem(){
-ps -eo pid,%mem,comm | sort -k 2 -r | head -n $1
+arg=$1
+if [[ -z $arg ]];then
+        arg=10;
+fi
+
+ps -eo pid,%mem,comm | sort -k 2 -r | head -n $arg
 }
 
 topcpu(){
-ps -eo pid,%cpu,comm | sort -k 2 -r | head -n $1
+arg=$1
+if [[ -z $arg ]];then
+        arg=10;
+fi
+
+ps -eo pid,%cpu,comm | sort -k 2 -r | head -n $arg
 }
 
 export haproxycfg=/etc/haproxy/haproxy.cfg

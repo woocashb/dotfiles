@@ -9,15 +9,16 @@ fi
 # export SYSTEMD_PAGER=
 export DISPLAY=:0
 export browset=/usr/bin/firefox
+alias tailf='tail -f'
 alias pip="pip --proxy http://192.168.0.4:3128"
 alias vim=vi
 alias yum=dnf
-export http_proxy=http://192.168.0.4:3128
 export pgdata=$(ps -ef | grep postgres | grep -- '-D' | cut -d 'D' -f 2 | tr -d ' ')
 export network=/etc/sysconfig/network-scripts
 
 # User specific aliases and functions
-export HISTTIMEFORMAT="%d/%m/%y %T "
+#export HISTTIMEFORMAT="%d/%m/%y %T "
+export HISTTIMEFORMAT="%F %T "
 #
 # ~/.bashrc
 #
@@ -37,11 +38,16 @@ scproxy(){
 
 # z -print0
 findsum(){
-du --files0-from=- -hc | tail -n1
+awk 'BEGIN { suma = 0 } { suma += $1} END { print "Suma: ", suma "M"}'
 }
 
 netprobe(){
 nmap -v -sn -n $1 -oG - | awk '/Status: Down/{print $2}'
+}
+
+hgrep(){
+
+history | grep $1 | grep -v hgrep
 }
 
 vimcp(){
@@ -55,28 +61,50 @@ vimcp(){
  fi
 }
 
+
+
 pwdgen(){
-openssl rand -base64 $1
+openssl rand -base64 16 | tr -d '/+' | cut -c 1-$1
 }
 
 topmem(){
-ps -eo pid,%mem,comm | sort -k 2 -r | head -n $1
+arg=$1
+n=${arg:=10}
+ps -eo pid,%mem,comm | sort -k 2 -r | head -n $n
 }
 
 topcpu(){
-ps -eo pid,%cpu,comm | sort -k 2 -r | head -n $1
+arg=$1
+n=${arg:=10}
+ps -eo pid,%cpu,comm | sort -k 2 -r | head -n $n
 }
 
-export haproxycfg=/etc/haproxy/haproxy.cfg
+
+# haproxy
+export hacfg=/etc/haproxy/haproxy.cfg
+export halog=/var/log/haproxy.log
+alias hachk='haproxy -c -f /etc/haproxy/haproxy.cfg'
+alias harld='systemctl reload haproxy'
 
 # apache
-export httpdconf=/etc/httpd/conf/httpd.conf
-export httpdlog=/var/log/httpd
-export httpdconfd=/etc/httpd/conf.d
-export html=/var/www/html
+export hconf=/etc/httpd/conf/httpd.conf
+export hlog=/var/log/httpd
+export hconfd=/etc/httpd/conf.d
+export hroot=/var/www/html
+
+# nginx
+export nconf=/etc/httpd/conf/nginx.conf
+export nlog=/var/log/nginx
+export nconfd=/etc/nginx/conf.d
+export nroot=/usr/share/nginx/html
 
 # postgres
 export pgdata=$(ps -ef | grep postgres | grep -- '-D' | cut -d 'D' -f 2 | tr -d ' ')
-export pglog=$(lsof -p $(ps -ef | egrep -i 'postgres: logger' | grep -v grep | awk '{print $2}') | grep -i log | tail -n 1 | awk '{print $9}')
+export pghba=${pgdata}/pg_hba.conf
+export pglog=$(lsof -p $(ps -ef | egrep -i 'postgres: logger' | grep -v grep | awk '{print $2}') 2> /dev/null | grep -i log | tail -n 1 | awk '{print $9}')
 
 
+export http_proxy=''
+export https_proxy=''
+export ftp_proxy=''
+export socks_proxy=''

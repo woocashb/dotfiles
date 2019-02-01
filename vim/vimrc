@@ -1,6 +1,7 @@
 ""init pathogen
 filetype off
-colorscheme torte
+colorscheme aqua
+set mouse=
 set number
 set hlsearch
 set autoindent

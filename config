@@ -1,0 +1,83 @@
+Host praca
+   Hostname 10.12.1.180
+   User woocash
+
+Host xen
+  HostName 192.168.0.254
+  User root
+
+Host template
+  HostName 10.1.1.254
+  User root
+
+Host router
+  HostName 192.168.0.2
+  User root
+
+Host ns1
+  HostName 10.1.1.2
+  User root
+
+Host ha1
+  HostName 10.1.1.3
+  User root
+
+Host ha2
+  HostName 10.1.1.4
+  User root
+
+Host gitlab
+  HostName 10.1.1.11
+  User root
+
+Host gitlab
+  HostName 10.1.1.11
+  User root
+
+Host ap1
+  HostName 10.1.1.5
+  User root
+
+Host ap2
+  HostName 10.1.1.6
+  User root
+
+Host db1
+  HostName 10.1.1.7
+  User root
+
+Host db2
+  HostName 10.1.1.8
+  User root
+
+Host debian
+  HostName 10.1.1.9
+  User root
+
+Host debian
+  HostName 10.1.1.9
+  User root
+
+Host debian
+  HostName 10.1.1.9
+  User root
+
+Host ns2
+  HostName 10.1.1.12
+  User root
+
+Host test
+  HostName 192.168.1.2
+  User root
+
+Host sandbox1
+  HostName 192.168.1.12
+  User root
+
+Host jenkins
+  HostName 10.1.1.13
+  User root
+
+Host jenkins
+  HostName 10.1.1.13
+  User root
